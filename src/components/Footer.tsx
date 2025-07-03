@@ -8,7 +8,7 @@ export const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
-              <div className="p-2 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg">
+              <div className="p-2 bg-gradient-to-r from-blue-500 to-red-600 rounded-lg">
                 <Compass className="w-6 h-6 text-white" />
               </div>
               <span className="text-2xl font-bold">Morocco Explorer</span>

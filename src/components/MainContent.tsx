@@ -6,7 +6,7 @@ const ExperiencesSection = () => {
     {
       name: "Desert Camping",
       count: "25+ tours",
-      color: "from-yellow-400 to-orange-500",
+      color: "from-yellow-400 to-blue-500",
       icon: "🏕️",
     },
     {
@@ -36,13 +36,13 @@ const ExperiencesSection = () => {
     {
       name: "Cultural Tours",
       count: "35+ guided tours",
-      color: "from-orange-400 to-red-500",
+      color: "from-blue-400 to-red-500",
       icon: "🕌",
     },
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-orange-50 to-red-50">
+    <section className="py-20 bg-gradient-to-br from-blue-50 to-red-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -58,7 +58,7 @@ const ExperiencesSection = () => {
           {experiences.map((experience, index) => (
             <div
               key={index}
-              className="group bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border border-orange-100 hover:border-orange-200 transform hover:-translate-y-1"
+              className="group bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border border-blue-100 hover:border-blue-200 transform hover:-translate-y-1"
             >
               <div
                 className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${experience.color} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300`}
@@ -68,7 +68,7 @@ const ExperiencesSection = () => {
               <h3 className="font-bold text-gray-900 mb-2 text-lg">
                 {experience.name}
               </h3>
-              <span className="text-sm text-gray-500 bg-orange-100 px-3 py-1 rounded-full">
+              <span className="text-sm text-gray-500 bg-blue-100 px-3 py-1 rounded-full">
                 {experience.count}
               </span>
             </div>
@@ -90,10 +90,10 @@ const NewsletterSection = () => {
   };
 
   return (
-    <section className="py-20 bg-orange-50">
+    <section className="py-20 bg-blue-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="bg-white rounded-3xl p-8 md:p-12 border border-orange-100 shadow-lg">
-          <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+        <div className="bg-white rounded-3xl p-8 md:p-12 border border-blue-100 shadow-lg">
+          <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-red-600 rounded-full flex items-center justify-center">
             <Mail className="w-8 h-8 text-white" />
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -113,12 +113,12 @@ const NewsletterSection = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="flex-1 px-6 py-4 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+              className="flex-1 px-6 py-4 rounded-xl border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500"
               required
             />
             <button
               type="submit"
-              className="px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl font-bold hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-red-600 text-white rounded-xl font-bold hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
             >
               Subscribe
             </button>
