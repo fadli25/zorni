@@ -6,38 +6,38 @@ const ExperiencesSection = () => {
     {
       name: "Desert Camping",
       count: "25+ tours",
-      color: "from-yellow-400 to-orange-500",
-      icon: "🏕️",
+      image: "https://cdn-icons-png.freepik.com/512/2714/2714077.png?ga=GA1.1.1358033830.1745296210",
+      alt: "Desert camping tent",
     },
     {
       name: "Atlas Mountains",
       count: "15+ hikes",
-      color: "from-green-400 to-blue-500",
-      icon: "🏔️",
+      image: "https://cdn-icons-png.freepik.com/512/2714/2714056.png?ga=GA1.1.1358033830.1745296210",
+      alt: "Mountain landscape",
     },
     {
       name: "Moroccan Cuisine",
       count: "30+ experiences",
-      color: "from-red-400 to-pink-500",
-      icon: "🍽️",
+      image: "https://cdn-icons-png.freepik.com/512/2714/2714078.png?ga=GA1.1.1358033830.1745296210",
+      alt: "Moroccan tagine dish",
     },
     {
       name: "Traditional Crafts",
       count: "20+ workshops",
-      color: "from-purple-400 to-indigo-500",
-      icon: "🎨",
+      image: "https://cdn-icons-png.freepik.com/512/2714/2714083.png?ga=GA1.1.1358033830.1745296210",
+      alt: "Traditional pottery",
     },
     {
       name: "Beach Resorts",
       count: "18+ locations",
-      color: "from-cyan-400 to-blue-500",
-      icon: "🏖️",
+      image: "https://cdn-icons-png.freepik.com/512/2714/2714095.png?ga=GA1.1.1358033830.1745296210",
+      alt: "Tropical beach",
     },
     {
       name: "Cultural Tours",
       count: "35+ guided tours",
-      color: "from-orange-400 to-red-500",
-      icon: "🕌",
+      image: "https://cdn-icons-png.freepik.com/512/2714/2714094.png?ga=GA1.1.1358033830.1745296210https://images.unsplash.com/photo-1539650116574-75c0c6d73906?w=64&h=64&fit=crop&crop=center",
+      alt: "Moroccan architecture",
     },
   ];
 
@@ -61,9 +61,13 @@ const ExperiencesSection = () => {
               className="group bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border border-orange-100 hover:border-orange-200 transform hover:-translate-y-1"
             >
               <div
-                className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${experience.color} flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300`}
+                className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-r flex items-center justify-center group-hover:scale-110 transition-transform duration-300 p-2`}
               >
-                {experience.icon}
+                <img
+                  src={experience.image}
+                  alt={experience.alt}
+                  className="w-full h-full object-cover rounded-xl"
+                />
               </div>
               <h3 className="font-bold text-gray-900 mb-2 text-lg">
                 {experience.name}
@@ -82,11 +86,14 @@ const ExperiencesSection = () => {
 const NewsletterSection = () => {
   const [email, setEmail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Newsletter signup:", email);
-    alert(`Thank you for subscribing, ${email}!`);
-    setEmail("");
+  const handleSubmit = () => {
+    if (email && email.includes('@')) {
+      console.log("Newsletter signup:", email);
+      alert(`Thank you for subscribing, ${email}!`);
+      setEmail("");
+    } else {
+      alert("Please enter a valid email address");
+    }
   };
 
   return (
@@ -104,25 +111,21 @@ const NewsletterSection = () => {
             your Morocco adventure delivered to your inbox.
           </p>
 
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
-          >
+          <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
               className="flex-1 px-6 py-4 rounded-xl border border-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-900 placeholder-gray-500"
-              required
             />
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="px-8 py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl font-bold hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
             >
               Subscribe
             </button>
-          </form>
+          </div>
         </div>
       </div>
     </section>
