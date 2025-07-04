@@ -1,15 +1,20 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
-import Login from "./Login";
+import Login from "./components/Login";
+import { AuthProvider } from "./context/AuthContext";
+import Register from "./components/Register";
 
 const MoroccoTourismApp = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
