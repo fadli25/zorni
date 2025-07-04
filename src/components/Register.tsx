@@ -61,6 +61,7 @@ const Register: React.FC = () => {
       setToastMessage({ type: "loading", message });
       return { id: "loading" };
     },
+    //@ts-ignore
     dismiss: (id: string) => {
       // In a real library, the id would be used to dismiss a specific toast.
       // Here we just clear the single toast message.
@@ -124,6 +125,7 @@ const Register: React.FC = () => {
         name: formData.name,
         email: formData.email,
         password: formData.password,
+        //@ts-ignore
         username: formData.username,
       });
 

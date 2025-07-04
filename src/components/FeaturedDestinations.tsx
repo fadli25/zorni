@@ -99,7 +99,7 @@ export const FeaturedDestinations = () => {
       rating: 4.8,
       visitors: "2.5M+ visitors",
       image:
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d0e63e?w=800&h=400&fit=crop",
+        "https://www.visitmorocco.com/sites/default/files/styles/thumbnail_destination_background_top5/public/thumbnails/image/koutoubia-mosque-minaret-located-at-medina-quarter-of-marrakesh-morocco-balate-dorin.jpg?itok=08hAHERp",
       featured: true,
     },
     {
@@ -114,7 +114,8 @@ export const FeaturedDestinations = () => {
       rating: 4.9,
       visitors: "500K+ visitors",
       image:
-        "https://images.unsplash.com/photo-1509749837427-ac68a2e49d1c?w=600&h=400&fit=crop",
+        "https://www.maroc24.com/fr/wp-content/uploads/2025/02/Merzouga.jpg",
+      featured: true,
     },
     {
       id: 3,
@@ -128,7 +129,7 @@ export const FeaturedDestinations = () => {
       rating: 4.7,
       visitors: "800K+ visitors",
       image:
-        "https://images.unsplash.com/photo-1570939274717-7eda259b50ed?w=600&h=400&fit=crop",
+        "https://upload.wikimedia.org/wikipedia/commons/7/70/Chefchaouen_the_blue_pearl_kd.jpg",
     },
     {
       id: 4,
@@ -142,7 +143,7 @@ export const FeaturedDestinations = () => {
       rating: 4.6,
       visitors: "1.2M+ visitors",
       image:
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d0e63e?w=600&h=400&fit=crop",
+        "https://i.natgeofe.com/n/1761d5b7-e073-44a9-80e1-2441c5684fee/wst_insideguide_fcr-458888_hr.jpg",
     },
   ];
 
