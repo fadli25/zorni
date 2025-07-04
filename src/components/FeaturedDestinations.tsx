@@ -3,7 +3,7 @@ import { MapPin, Star, Users, Clock, ArrowRight } from "lucide-react";
 const DestinationCard = ({ destination, featured = false }: any) => {
   return (
     <article
-      className={`bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-xl transition-all duration-300 group ${
+      className={`bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden hover:shadow-xl transition-all duration-300 group ${
         featured ? "md:col-span-2" : ""
       }`}
     >
@@ -25,7 +25,7 @@ const DestinationCard = ({ destination, featured = false }: any) => {
         </div>
         {featured && (
           <div className="absolute top-4 right-4">
-            <div className="flex items-center space-x-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+            <div className="flex items-center space-x-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
               <Star className="w-4 h-4" />
               <span>Most Popular</span>
             </div>
@@ -48,14 +48,14 @@ const DestinationCard = ({ destination, featured = false }: any) => {
 
       <div className="p-6">
         <div className="flex items-center space-x-2 mb-3">
-          <MapPin className="w-4 h-4 text-orange-600" />
+          <MapPin className="w-4 h-4 text-blue-600" />
           <span className="text-sm text-gray-600">{destination.location}</span>
         </div>
 
         <h3
           className={`${
             featured ? "text-2xl" : "text-xl"
-          } font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors cursor-pointer leading-tight`}
+          } font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors cursor-pointer leading-tight`}
         >
           {destination.name}
         </h3>
@@ -70,12 +70,12 @@ const DestinationCard = ({ destination, featured = false }: any) => {
               <Clock className="w-4 h-4" />
               <span>{destination.duration}</span>
             </div>
-            <div className="text-lg font-bold text-orange-600">
+            <div className="text-lg font-bold text-blue-600">
               {destination.price}
             </div>
           </div>
 
-          <button className="flex items-center space-x-1 text-orange-600 hover:text-orange-800 font-medium transition-colors group">
+          <button className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
             <span>Explore</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -99,7 +99,7 @@ export const FeaturedDestinations = () => {
       rating: 4.8,
       visitors: "2.5M+ visitors",
       image:
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d0e63e?w=800&h=400&fit=crop",
+        "https://www.visitmorocco.com/sites/default/files/styles/thumbnail_destination_background_top5/public/thumbnails/image/koutoubia-mosque-minaret-located-at-medina-quarter-of-marrakesh-morocco-balate-dorin.jpg?itok=08hAHERp",
       featured: true,
     },
     {
@@ -114,7 +114,8 @@ export const FeaturedDestinations = () => {
       rating: 4.9,
       visitors: "500K+ visitors",
       image:
-        "https://images.unsplash.com/photo-1509749837427-ac68a2e49d1c?w=600&h=400&fit=crop",
+        "https://www.maroc24.com/fr/wp-content/uploads/2025/02/Merzouga.jpg",
+      featured: true,
     },
     {
       id: 3,
@@ -128,7 +129,7 @@ export const FeaturedDestinations = () => {
       rating: 4.7,
       visitors: "800K+ visitors",
       image:
-        "https://images.unsplash.com/photo-1570939274717-7eda259b50ed?w=600&h=400&fit=crop",
+        "https://upload.wikimedia.org/wikipedia/commons/7/70/Chefchaouen_the_blue_pearl_kd.jpg",
     },
     {
       id: 4,
@@ -142,7 +143,7 @@ export const FeaturedDestinations = () => {
       rating: 4.6,
       visitors: "1.2M+ visitors",
       image:
-        "https://images.unsplash.com/photo-1539650116574-75c0c6d0e63e?w=600&h=400&fit=crop",
+        "https://i.natgeofe.com/n/1761d5b7-e073-44a9-80e1-2441c5684fee/wst_insideguide_fcr-458888_hr.jpg",
     },
   ];
 
