@@ -136,6 +136,7 @@ const Register: React.FC = () => {
       setToastMessage({ type: "loading", message });
       return { id: "loading" };
     },
+    //@ts-ignore
     dismiss: (id: string) => {
       setToastMessage(null);
     },
