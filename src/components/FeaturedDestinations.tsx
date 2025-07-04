@@ -3,7 +3,7 @@ import { MapPin, Star, Users, Clock, ArrowRight } from "lucide-react";
 const DestinationCard = ({ destination, featured = false }: any) => {
   return (
     <article
-      className={`bg-white rounded-2xl shadow-sm border border-blue-100 overflow-hidden hover:shadow-xl transition-all duration-300 group ${
+      className={`bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden hover:shadow-xl transition-all duration-300 group ${
         featured ? "md:col-span-2" : ""
       }`}
     >
@@ -18,19 +18,22 @@ const DestinationCard = ({ destination, featured = false }: any) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
         <div className="absolute top-4 left-4">
           <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-800 text-sm font-medium rounded-full">
             {destination.category}
           </span>
         </div>
+
         {featured && (
           <div className="absolute top-4 right-4">
-            <div className="flex items-center space-x-1 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+            <div className="flex items-center space-x-1 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
               <Star className="w-4 h-4" />
               <span>Most Popular</span>
             </div>
           </div>
         )}
+
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center space-x-2 text-white">
             <div className="flex items-center space-x-1">
@@ -48,14 +51,14 @@ const DestinationCard = ({ destination, featured = false }: any) => {
 
       <div className="p-6">
         <div className="flex items-center space-x-2 mb-3">
-          <MapPin className="w-4 h-4 text-blue-600" />
+          <MapPin className="w-4 h-4 text-orange-600" />
           <span className="text-sm text-gray-600">{destination.location}</span>
         </div>
 
         <h3
           className={`${
             featured ? "text-2xl" : "text-xl"
-          } font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors cursor-pointer leading-tight`}
+          } font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors cursor-pointer leading-tight`}
         >
           {destination.name}
         </h3>
@@ -70,12 +73,12 @@ const DestinationCard = ({ destination, featured = false }: any) => {
               <Clock className="w-4 h-4" />
               <span>{destination.duration}</span>
             </div>
-            <div className="text-lg font-bold text-blue-600">
+            <div className="text-lg font-bold text-orange-600">
               {destination.price}
             </div>
           </div>
 
-          <button className="flex items-center space-x-1 text-blue-600 hover:text-blue-800 font-medium transition-colors group">
+          <button className="flex items-center space-x-1 text-orange-600 hover:text-orange-800 font-medium transition-colors group">
             <span>Explore</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>

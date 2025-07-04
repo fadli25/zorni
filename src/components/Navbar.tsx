@@ -5,7 +5,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-blue-100 sticky top-0 z-50">
+    <header className="bg-white/95 backdrop-blur-sm shadow-lg border-b border-orange-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -13,7 +13,7 @@ export const Navbar = () => {
              <img
           src="https://i.imgur.com/Xwyf79M.png"
           alt="Logo"
-          className="w-60 h-15 group-hover:scale-105 transition-transform duration-500"
+          className="w-20 h-20 group-hover:scale-105 transition-transform duration-500"
         />
           </div>
 
@@ -21,38 +21,38 @@ export const Navbar = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <a
               href="#"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-all duration-200 relative group"
+              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
             >
               Home
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
             </a>
             <a
               href="#"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-all duration-200 relative group"
+              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
             >
               Destinations
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
             </a>
             <a
               href="#"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-all duration-200 relative group"
+              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
             >
               Experiences
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
             </a>
             <a
               href="#"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-all duration-200 relative group"
+              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
             >
               Culture
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
             </a>
             <a
               href="#"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-all duration-200 relative group"
+              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
             >
               Contact
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
             </a>
           </nav>
 
@@ -63,13 +63,13 @@ export const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search destinations..."
-                className="pl-10 pr-4 py-2 w-64 border border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:shadow-md"
+                className="pl-10 pr-4 py-2 w-64 border border-orange-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 hover:shadow-md"
               />
             </div>
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-xl hover:bg-blue-50 transition-colors"
+              className="md:hidden p-2 rounded-xl hover:bg-orange-50 transition-colors"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -82,35 +82,35 @@ export const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-blue-100">
+          <div className="md:hidden py-4 border-t border-orange-100">
             <nav className="flex flex-col space-y-3">
               <a
                 href="#"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-blue-50"
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
               >
                 Home
               </a>
               <a
                 href="#"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-blue-50"
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
               >
                 Destinations
               </a>
               <a
                 href="#"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-blue-50"
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
               >
                 Experiences
               </a>
               <a
                 href="#"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-blue-50"
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
               >
                 Culture
               </a>
               <a
                 href="#"
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-blue-50"
+                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
               >
                 Contact
               </a>

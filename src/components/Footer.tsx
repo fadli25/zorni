@@ -8,10 +8,14 @@ export const Footer = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
-              <div className="p-2 bg-gradient-to-r from-blue-500 to-red-600 rounded-lg">
+              <div className="p-2 bg-gradient-to-r from-blue-500 to-white-600 rounded-lg">
                 <Compass className="w-6 h-6 text-white" />
               </div>
-              <span className="text-2xl font-bold">Morocco Explorer</span>
+              <img
+                src="https://i.imgur.com/0Ui1Eec.png"
+                alt="Morocco Explorer Logo"
+                className="w-30 h-30"
+              />
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Your trusted guide to discovering the magic of Morocco. From the

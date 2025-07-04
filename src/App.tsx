@@ -1,14 +1,12 @@
 import { Navbar } from "./components/Navbar";
-import { HeroSection } from "./components/HeroSection";
 import { FeaturedDestinations } from "./components/FeaturedDestinations";
 import { MainContent } from "./components/MainContent";
 import { Footer } from "./components/Footer";
 
 const MoroccoTourismApp = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-red">
       <Navbar />
-      <HeroSection />
       <FeaturedDestinations />
       <MainContent />
       <Footer />
