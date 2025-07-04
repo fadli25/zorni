@@ -8,6 +8,8 @@ import {
   CheckCircle,
   XCircle,
   UserPlus,
+  User,
+  AtSign,
 } from "lucide-react";
 
 // Mock AuthContext and useNavigate for demonstration purposes
@@ -15,6 +17,8 @@ import {
 
 // Mock type definitions for demonstration
 interface FormData {
+  name: string; // Added name field
+  username: string; // Added username field
   email: string;
   password: string;
   confirmPassword: string;
@@ -32,6 +36,8 @@ interface AuthResponse {
 
 interface AuthContextType {
   register: (credentials: {
+    name: string;
+    username: string;
     email: string;
     password: string;
   }) => Promise<AuthResponse>;
@@ -44,12 +50,16 @@ const useAuth = (): AuthContextType => {
   const [loading, setLoading] = useState(false);
 
   const register = async (credentials: {
+    name: string;
+    username: string;
     email: string;
     password: string;
   }): Promise<AuthResponse> => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call delay
 
+    // Demo logic:
+    // Success for specific credentials
     if (
       credentials.email === "newuser@example.com" &&
       credentials.password === "newpassword"
@@ -57,19 +67,30 @@ const useAuth = (): AuthContextType => {
       setLoading(false);
       return {
         success: true,
-        user: { id: "2", name: "New User", email: "newuser@example.com" },
+        user: { id: "2", name: credentials.name, email: credentials.email },
       };
-    } else if (credentials.email === "existing@example.com") {
+    }
+    // Error for existing email
+    else if (credentials.email === "existing@example.com") {
       setLoading(false);
       return {
         success: false,
         message: "An account with this email already exists.",
       };
     }
+    // Error for existing username
+    else if (credentials.username === "existinguser") {
+      setLoading(false);
+      return {
+        success: false,
+        message: "This username is already taken. Please choose another.",
+      };
+    }
+    // General failure for other cases
     setLoading(false);
     return {
       success: false,
-      message: "Registration failed. Please try a different email or password.",
+      message: "Registration failed. Please try again with different details.",
     };
   };
 
@@ -110,6 +131,8 @@ const Link = ({
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
+    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -156,11 +179,30 @@ const Register: React.FC = () => {
   };
 
   const validateForm = (): boolean => {
+    if (!formData.name.trim()) {
+      toast.error("Please enter your name");
+      return false;
+    }
+
+    if (!formData.username.trim()) {
+      toast.error("Please enter a username");
+      return false;
+    }
+    if (formData.username.trim().length < 3) {
+      toast.error("Username must be at least 3 characters long");
+      return false;
+    }
+    if (!/^[a-zA-Z0-9_.]+$/.test(formData.username.trim())) {
+      toast.error(
+        "Username can only contain letters, numbers, underscores, and periods."
+      );
+      return false;
+    }
+
     if (!formData.email.trim()) {
       toast.error("Please enter your email address");
       return false;
     }
-
     if (!formData.email.includes("@")) {
       toast.error("Please enter a valid email address");
       return false;
@@ -170,7 +212,6 @@ const Register: React.FC = () => {
       toast.error("Please enter a password");
       return false;
     }
-
     if (formData.password.length < 6) {
       toast.error("Password must be at least 6 characters long");
       return false;
@@ -192,8 +233,10 @@ const Register: React.FC = () => {
     const loadingToast = toast.loading("Registering your account...");
 
     try {
-      // Using the mock register function
+      // Pass all relevant data to the register function
       const result = await register({
+        name: formData.name,
+        username: formData.username,
         email: formData.email,
         password: formData.password,
       });
@@ -208,7 +251,13 @@ const Register: React.FC = () => {
         );
 
         // Clear form on successful registration
-        setFormData({ email: "", password: "", confirmPassword: "" });
+        setFormData({
+          name: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
 
         // Navigate to dashboard or login after successful registration
         setTimeout(() => {
@@ -263,6 +312,57 @@ const Register: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name Field */}
+          <div className="relative">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Full Name
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                disabled={loading}
+                autoComplete="name"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              />
+            </div>
+          </div>
+
+          {/* Username Field */}
+          <div className="relative">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Username
+            </label>
+            <div className="relative">
+              <AtSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Choose a unique username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                disabled={loading}
+                autoComplete="username"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              />
+            </div>
+          </div>
+
+          {/* Email Field */}
           <div className="relative">
             <label
               htmlFor="email"
@@ -287,6 +387,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
+          {/* Password Field */}
           <div className="relative">
             <label
               htmlFor="password"
@@ -324,6 +425,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
+          {/* Confirm Password Field */}
           <div className="relative">
             <label
               htmlFor="confirmPassword"
@@ -398,10 +500,14 @@ const Register: React.FC = () => {
 
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500">
-            Demo registration: newuser@example.com / newpassword
+            Demo registration: Name: Demo User, Username: demo_user, Email:
+            newuser@example.com, Password: newpassword
           </p>
           <p className="text-xs text-gray-500">
-            Existing user demo: existing@example.com (will show error)
+            Existing email demo: existing@example.com (will show error)
+          </p>
+          <p className="text-xs text-gray-500">
+            Existing username demo: existinguser (will show error)
           </p>
         </div>
       </div>
