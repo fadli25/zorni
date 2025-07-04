@@ -108,7 +108,7 @@ const Login: React.FC = () => {
 
         // Navigate to dashboard after successful login
         setTimeout(() => {
-          navigate("/dashboard");
+          navigate("/");
         }, 1500);
       } else {
         toast.error(result.message || "Login failed. Please try again.");

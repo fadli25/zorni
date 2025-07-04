@@ -147,45 +147,6 @@ export const Navbar = () => {
             </span>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/"
-              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
-            >
-              Home
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
-            </Link>
-            <Link
-              to="/destinations"
-              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
-            >
-              Destinations
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
-            </Link>
-            <Link
-              to="/experiences"
-              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
-            >
-              Experiences
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
-            </Link>
-            <Link
-              to="/culture"
-              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
-            >
-              Culture
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 relative group"
-            >
-              Contact
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-orange-600 transition-all duration-200 group-hover:w-full"></span>
-            </Link>
-          </nav>
-
           {/* Auth and Mobile Menu */}
           <div className="flex items-center space-x-4">
             {/* Auth Buttons/User Info */}
@@ -247,85 +208,7 @@ export const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-orange-100 animate-in slide-in-from-top-2 duration-300">
-            <nav className="flex flex-col space-y-3">
-              <Link
-                to="/"
-                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
-              >
-                Home
-              </Link>
-              <Link
-                to="/destinations"
-                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
-              >
-                Destinations
-              </Link>
-              <Link
-                to="/experiences"
-                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
-              >
-                Experiences
-              </Link>
-              <Link
-                to="/culture"
-                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
-              >
-                Culture
-              </Link>
-              <Link
-                to="/contact"
-                className="text-gray-700 hover:text-orange-600 font-medium transition-colors px-2 py-1 rounded-lg hover:bg-orange-50"
-              >
-                Contact
-              </Link>
-              {!loading && (
-                <>
-                  {currentUser ? (
-                    <>
-                      <div className="flex items-center space-x-2 text-gray-700 px-2 py-1">
-                        <User className="w-5 h-5" />
-                        <span className="font-medium">
-                          Welcome,{" "}
-                          {currentUser.name ||
-                            currentUser.username ||
-                            currentUser.email.split("@")[0]}
-                          !
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => {
-                          handleLogout();
-                          setIsMenuOpen(false);
-                        }}
-                        className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 text-sm font-medium mx-2"
-                      >
-                        <LogOut className="w-4 h-4 mr-2" />
-                        Sign Out
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link
-                        to="/login"
-                        className="flex items-center px-4 py-2 border border-orange-500 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors duration-200 text-sm font-medium mx-2"
-                      >
-                        <LogIn className="w-4 h-4 mr-2" />
-                        Sign In
-                      </Link>
-                      <Link
-                        to="/register"
-                        className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium mx-2"
-                      >
-                        <UserPlus className="w-4 h-4 mr-2" />
-                        Sign Up
-                      </Link>
-                    </>
-                  )}
-                </>
-              )}
-            </nav>
-          </div>
+          <div className="md:hidden py-4 border-t border-orange-100 animate-in slide-in-from-top-2 duration-300"></div>
         )}
       </div>
     </header>
