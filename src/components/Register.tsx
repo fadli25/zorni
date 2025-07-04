@@ -7,129 +7,24 @@ import {
   Loader2,
   CheckCircle,
   XCircle,
-  UserPlus,
   User,
   AtSign,
+  UserPlus,
 } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
 
-// Mock AuthContext and useNavigate for demonstration purposes
-// In a real application, you would import these from your actual context and router setup.
-
-// Mock type definitions for demonstration
+// Define the structure for the form data
 interface FormData {
-  name: string; // Added name field
-  username: string; // Added username field
+  name: string;
+  username: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
 
-interface AuthResponse {
-  success: boolean;
-  message?: string;
-  user?: {
-    id: string;
-    name?: string;
-    email: string;
-  };
-}
-
-interface AuthContextType {
-  register: (credentials: {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-  }) => Promise<AuthResponse>;
-  loading: boolean;
-  // Add other auth-related properties if needed, e.g., currentUser
-}
-
-// Mock useAuth hook
-const useAuth = (): AuthContextType => {
-  const [loading, setLoading] = useState(false);
-
-  const register = async (credentials: {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-  }): Promise<AuthResponse> => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call delay
-
-    // Demo logic:
-    // Success for specific credentials
-    if (
-      credentials.email === "newuser@example.com" &&
-      credentials.password === "newpassword"
-    ) {
-      setLoading(false);
-      return {
-        success: true,
-        user: { id: "2", name: credentials.name, email: credentials.email },
-      };
-    }
-    // Error for existing email
-    else if (credentials.email === "existing@example.com") {
-      setLoading(false);
-      return {
-        success: false,
-        message: "An account with this email already exists.",
-      };
-    }
-    // Error for existing username
-    else if (credentials.username === "existinguser") {
-      setLoading(false);
-      return {
-        success: false,
-        message: "This username is already taken. Please choose another.",
-      };
-    }
-    // General failure for other cases
-    setLoading(false);
-    return {
-      success: false,
-      message: "Registration failed. Please try again with different details.",
-    };
-  };
-
-  return { register, loading };
-};
-
-// Mock useNavigate hook
-const useNavigate = () => {
-  return (path: string) => {
-    console.log(`Navigating to: ${path}`);
-    // In a real app, this would trigger a route change.
-  };
-};
-
-// Mock Link component (from react-router-dom)
-const Link = ({
-  to,
-  children,
-  className,
-}: {
-  to: string;
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <a
-      href={to}
-      className={className}
-      onClick={(e) => {
-        e.preventDefault();
-        console.log(`Link clicked: ${to}`);
-      }}
-    >
-      {children}
-    </a>
-  );
-};
-
 const Register: React.FC = () => {
+  // State for form fields
   const [formData, setFormData] = useState<FormData>({
     name: "",
     username: "",
@@ -137,15 +32,22 @@ const Register: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
+
+  // State for password visibility toggles
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] =
     useState<boolean>(false);
 
-  // Using the mock useAuth for demo
+  // Get authentication functions and state from context
   const { register, loading } = useAuth();
   const navigate = useNavigate();
 
-  // Mock toast for demo - in your actual project, use: import toast from 'react-hot-toast'
+  // A simple toast notification system for user feedback
+  const [toastMessage, setToastMessage] = useState<{
+    type: "success" | "error" | "loading";
+    message: string;
+  } | null>(null);
+
   const toast = {
     success: (message: string) => {
       setToastMessage({ type: "success", message });
@@ -159,17 +61,14 @@ const Register: React.FC = () => {
       setToastMessage({ type: "loading", message });
       return { id: "loading" };
     },
-    //@ts-ignore
     dismiss: (id: string) => {
+      // In a real library, the id would be used to dismiss a specific toast.
+      // Here we just clear the single toast message.
       setToastMessage(null);
     },
   };
 
-  const [toastMessage, setToastMessage] = useState<{
-    type: "success" | "error" | "loading";
-    message: string;
-  } | null>(null);
-
+  // Handle changes in form inputs
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -178,79 +77,63 @@ const Register: React.FC = () => {
     }));
   };
 
+  // Validate the form before submission
   const validateForm = (): boolean => {
     if (!formData.name.trim()) {
-      toast.error("Please enter your name");
+      toast.error("Please enter your full name.");
       return false;
     }
-
     if (!formData.username.trim()) {
-      toast.error("Please enter a username");
+      toast.error("Please enter a username.");
       return false;
     }
-    if (formData.username.trim().length < 3) {
-      toast.error("Username must be at least 3 characters long");
+    if (formData.username.length < 3) {
+      toast.error("Username must be at least 3 characters.");
       return false;
     }
-    if (!/^[a-zA-Z0-9_.]+$/.test(formData.username.trim())) {
-      toast.error(
-        "Username can only contain letters, numbers, underscores, and periods."
-      );
+    if (!formData.email.trim() || !formData.email.includes("@")) {
+      toast.error("Please enter a valid email address.");
       return false;
     }
-
-    if (!formData.email.trim()) {
-      toast.error("Please enter your email address");
-      return false;
-    }
-    if (!formData.email.includes("@")) {
-      toast.error("Please enter a valid email address");
-      return false;
-    }
-
     if (!formData.password.trim()) {
-      toast.error("Please enter a password");
+      toast.error("Please enter a password.");
       return false;
     }
     if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
+      toast.error("Password must be at least 6 characters long.");
       return false;
     }
-
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error("Passwords do not match.");
       return false;
     }
-
     return true;
   };
 
+  // Handle the form submission
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    const loadingToast = toast.loading("Registering your account...");
+    const loadingToast = toast.loading("Creating your account...");
 
     try {
-      // Pass all relevant data to the register function
+      // Call the register function from the AuthContext
       const result = await register({
         name: formData.name,
-        username: formData.username,
         email: formData.email,
         password: formData.password,
+        username: formData.username,
       });
 
       toast.dismiss(loadingToast.id);
 
       if (result.success) {
         toast.success(
-          `Account created successfully! Welcome${
-            result.user?.name ? `, ${result.user.name}` : ""
-          }!`
+          `Account created! Welcome, ${result.user?.name || "friend"}!`
         );
-
-        // Clear form on successful registration
+        // Reset form after successful registration
         setFormData({
           name: "",
           username: "",
@@ -258,26 +141,23 @@ const Register: React.FC = () => {
           password: "",
           confirmPassword: "",
         });
-
-        // Navigate to dashboard or login after successful registration
+        // Redirect to the home page after a short delay
         setTimeout(() => {
-          navigate("/login"); // Or '/dashboard' if you want to auto-login
+          navigate("/");
         }, 1500);
       } else {
         toast.error(result.message || "Registration failed. Please try again.");
       }
     } catch (error) {
       toast.dismiss(loadingToast.id);
-      toast.error(
-        "An unexpected error occurred during registration. Please try again."
-      );
+      toast.error("An unexpected error occurred. Please try again.");
       console.error("Registration error:", error);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex items-center justify-center p-4">
-      {/* Mock Toast Component - In your actual project, use <Toaster /> */}
+      {/* Custom Toast Component */}
       {toastMessage && (
         <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top-2">
           <div
@@ -306,13 +186,13 @@ const Register: React.FC = () => {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
-            Create Account
+            Create an Account
           </h2>
-          <p className="text-gray-600">Join us and get started!</p>
+          <p className="text-gray-600">Join us to start your adventure!</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name Field */}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Full Name Input */}
           <div className="relative">
             <label
               htmlFor="name"
@@ -337,7 +217,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Username Field */}
+          {/* Username Input */}
           <div className="relative">
             <label
               htmlFor="username"
@@ -362,7 +242,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Email Field */}
+          {/* Email Input */}
           <div className="relative">
             <label
               htmlFor="email"
@@ -387,7 +267,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Password Field */}
+          {/* Password Input */}
           <div className="relative">
             <label
               htmlFor="password"
@@ -401,7 +281,7 @@ const Register: React.FC = () => {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
-                placeholder="Create a password"
+                placeholder="Create a strong password"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -425,7 +305,7 @@ const Register: React.FC = () => {
             </div>
           </div>
 
-          {/* Confirm Password Field */}
+          {/* Confirm Password Input */}
           <div className="relative">
             <label
               htmlFor="confirmPassword"
@@ -453,9 +333,7 @@ const Register: React.FC = () => {
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 disabled={loading}
                 aria-label={
-                  showConfirmPassword
-                    ? "Hide confirm password"
-                    : "Show confirm password"
+                  showConfirmPassword ? "Hide password" : "Show password"
                 }
               >
                 {showConfirmPassword ? (
@@ -467,10 +345,11 @@ const Register: React.FC = () => {
             </div>
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+            className="w-full mt-2 bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
           >
             {loading ? (
               <>
@@ -480,7 +359,7 @@ const Register: React.FC = () => {
             ) : (
               <>
                 <UserPlus className="w-5 h-5 mr-2" />
-                Register
+                Create Account
               </>
             )}
           </button>
@@ -495,19 +374,6 @@ const Register: React.FC = () => {
             >
               Sign In
             </Link>
-          </p>
-        </div>
-
-        <div className="mt-6 text-center">
-          <p className="text-xs text-gray-500">
-            Demo registration: Name: Demo User, Username: demo_user, Email:
-            newuser@example.com, Password: newpassword
-          </p>
-          <p className="text-xs text-gray-500">
-            Existing email demo: existing@example.com (will show error)
-          </p>
-          <p className="text-xs text-gray-500">
-            Existing username demo: existinguser (will show error)
           </p>
         </div>
       </div>

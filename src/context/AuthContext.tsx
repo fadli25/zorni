@@ -78,7 +78,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const getCurrentUser = async (): Promise<void> => {
     try {
       const response = await axios.get("http://localhost:3000/api/auth/");
-      setUser(response.data.user);
+      setUser(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching user:", error);
       logout(); // Clear invalid token
@@ -88,6 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (userData: RegisterData): Promise<AuthResponse> => {
+    console.log(userData);
     try {
       const response = await axios.post(
         "http://localhost:3000/api/auth/register",

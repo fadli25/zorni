@@ -1,136 +1,27 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X, Compass, LogIn, UserPlus, LogOut, User } from "lucide-react";
-
-// Mock AuthContext and useNavigate for demonstration purposes
-// In a real application, you would import these from your actual context and router setup.
-
-// Mock type definitions for demonstration
-interface AuthUser {
-  id: string;
-  name?: string;
-  username?: string; // Added username
-  email: string;
-}
-
-interface AuthContextType {
-  currentUser: AuthUser | null;
-  loading: boolean;
-  login: (credentials: any) => Promise<any>; // Simplified for mock
-  logout: () => Promise<void>;
-  register: (credentials: any) => Promise<any>; // Simplified for mock
-}
-
-// Mock useAuth hook
-const useAuth = (): AuthContextType => {
-  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true); // Simulate initial loading
-
-  useEffect(() => {
-    // Simulate checking auth status on component mount
-    setTimeout(() => {
-      // For demo, assume no user initially. You could load from localStorage here.
-      // const storedUser = localStorage.getItem('mockUser');
-      // if (storedUser) {
-      //   setCurrentUser(JSON.parse(storedUser));
-      // }
-      setLoading(false);
-    }, 500);
-  }, []);
-
-  const login = async (credentials: any): Promise<any> => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (
-      credentials.email === "demo@example.com" &&
-      credentials.password === "password"
-    ) {
-      const user: AuthUser = {
-        id: "1",
-        name: "Demo User",
-        username: "demouser",
-        email: "demo@example.com",
-      };
-      setCurrentUser(user);
-      // localStorage.setItem('mockUser', JSON.stringify(user));
-      setLoading(false);
-      return { success: true, user };
-    }
-    setLoading(false);
-    return { success: false, message: "Invalid credentials" };
-  };
-
-  const logout = async (): Promise<void> => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    setCurrentUser(null);
-    // localStorage.removeItem('mockUser');
-    setLoading(false);
-  };
-
-  const register = async (credentials: any): Promise<any> => {
-    setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    if (
-      credentials.email === "newuser@example.com" &&
-      credentials.password === "newpassword"
-    ) {
-      const user: AuthUser = {
-        id: "3",
-        name: credentials.name,
-        username: credentials.username,
-        email: credentials.email,
-      };
-      setCurrentUser(user); // Auto-login after register for demo
-      setLoading(false);
-      return { success: true, user };
-    }
-    setLoading(false);
-    return { success: false, message: "Registration failed" };
-  };
-
-  return { currentUser, loading, login, logout, register };
-};
-
-// Mock useNavigate hook
-const useNavigate = () => {
-  return (path: string) => {
-    console.log(`Navigating to: ${path}`);
-    // In a real app, this would trigger a route change.
-  };
-};
-
-// Mock Link component (from react-router-dom)
-const Link = ({
-  to,
-  children,
-  className,
-}: {
-  to: string;
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <a
-      href={to}
-      className={className}
-      onClick={(e) => {
-        e.preventDefault();
-        console.log(`Link clicked: ${to}`);
-      }}
-    >
-      {children}
-    </a>
-  );
-};
+import { useAuth } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentUser, loading, logout } = useAuth(); // Use the mock auth hook
+  const { user, loading, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout();
-    navigate("/login"); // Redirect to login page after logout
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  // Helper function to get user display name
+  const getUserDisplayName = () => {
+    if (!user) return "User";
+    //@ts-ignore
+    return user.displayName || user.name || user.email?.split("@")[0] || "User";
   };
 
   return (
@@ -142,57 +33,60 @@ export const Navbar = () => {
             <div className="p-2 bg-gradient-to-r from-orange-500 to-red-600 rounded-lg">
               <Compass className="w-6 h-6 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
+            <Link
+              to="/"
+              className="text-2xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent"
+            >
               Morocco Explorer
-            </span>
+            </Link>
           </div>
 
           {/* Auth and Mobile Menu */}
           <div className="flex items-center space-x-4">
             {/* Auth Buttons/User Info */}
-            {!loading && (
-              <div className="hidden md:flex items-center space-x-4">
-                {currentUser ? (
-                  <>
-                    <div className="flex items-center space-x-2 text-gray-700">
-                      <User className="w-5 h-5" />
-                      <span className="font-medium">
-                        Welcome,{" "}
-                        {currentUser.name ||
-                          currentUser.username ||
-                          currentUser.email.split("@")[0]}
-                        !
-                      </span>
-                    </div>
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 text-sm font-medium"
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Link
-                      to="/login"
-                      className="flex items-center px-4 py-2 border border-orange-500 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors duration-200 text-sm font-medium"
-                    >
-                      <LogIn className="w-4 h-4 mr-2" />
-                      Sign In
-                    </Link>
-                    <Link
-                      to="/register"
-                      className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium"
-                    >
-                      <UserPlus className="w-4 h-4 mr-2" />
-                      Sign Up
-                    </Link>
-                  </>
-                )}
-              </div>
-            )}
+            <div className="hidden md:flex items-center space-x-4">
+              {loading ? (
+                <div className="flex items-center space-x-2 text-gray-500">
+                  <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-sm">Loading...</span>
+                </div>
+              ) : isAuthenticated ? (
+                <>
+                  <div className="flex items-center space-x-2 text-gray-700">
+                    <User className="w-5 h-5" />
+                    <span className="font-medium">
+                      Welcome, {getUserDisplayName()}!
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 text-sm font-medium"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="flex items-center px-4 py-2 border border-orange-500 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors duration-200 text-sm font-medium"
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
 
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-xl hover:bg-orange-50 transition-colors"
@@ -208,7 +102,51 @@ export const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-orange-100 animate-in slide-in-from-top-2 duration-300"></div>
+          <div className="md:hidden py-4 border-t border-orange-100 animate-in slide-in-from-top-2 duration-300">
+            <div className="flex flex-col space-y-3">
+              {loading ? (
+                <div className="flex items-center justify-center space-x-2 text-gray-500 py-2">
+                  <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-sm">Loading...</span>
+                </div>
+              ) : isAuthenticated ? (
+                <>
+                  <div className="flex items-center space-x-2 text-gray-700 px-4 py-2">
+                    <User className="w-5 h-5" />
+                    <span className="font-medium">
+                      Welcome, {getUserDisplayName()}!
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200 text-sm font-medium mx-4"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="flex items-center justify-center px-4 py-2 border border-orange-500 text-orange-600 rounded-lg hover:bg-orange-50 transition-colors duration-200 text-sm font-medium mx-4"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="flex items-center justify-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200 text-sm font-medium mx-4"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
         )}
       </div>
     </header>
